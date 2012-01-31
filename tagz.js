@@ -8,7 +8,8 @@
   $.tagz = function($el, options) {
     // Default settings
     var defaults = {
-        tags: null  // Content that will be loaded into modal
+      anywhere: false, // search anywhere in tag
+      tags: null  // Content that will be loaded into modal
     };
     
     var plugin = this,  // Use the plugin var to access the modalw object everywhere
@@ -80,17 +81,28 @@
     var update_possible_suggestions = function(string) {
       
       // array to hold new possible suggestions
-      var new_possible_suggestions = [];
-      
+      var new_possible_suggestions = [],
+      // string length
+      strlen = string.length,
+      // lowercase string
+      string = string.toLowerCase();
+        
       // loop possible suggestions
       for (var i = plugin.possible_suggestions.length - 1; i >= 0; i--) {
         
-        // check if its a possible suggestions
-        if (plugin.possible_suggestions[i].toLowerCase().indexOf(string) >= 0)
-          // push string
-          new_possible_suggestions.push(plugin.possible_suggestions[i]);
-        
-      };
+        if (plugin.settings.anywhere) {
+          // check if its a possible suggestions
+          if (plugin.possible_suggestions[i].toLowerCase().indexOf(string) >= 0)
+            // push string
+            new_possible_suggestions.push(plugin.possible_suggestions[i]);
+        } else {
+          
+          // check if its a possible suggestions
+          if (plugin.possible_suggestions[i].toLowerCase().substr(0, strlen) == string)
+            // push string
+            new_possible_suggestions.push(plugin.possible_suggestions[i]);
+        }
+      }
       
       // replace possible suggestions with new ones
       plugin.possible_suggestions = new_possible_suggestions;
@@ -103,17 +115,22 @@
       
       // loop possible suggestions
       for (var i = plugin.possible_suggestions.length - 1; i >= 0; i--) {
-        suggestions += list_item(plugin.possible_suggestions[i], input_val);//'<li>'+plugin.possible_suggestions[i]+'</li>';
-      };
+        suggestions += list_item(plugin.possible_suggestions[i], input_val);
+      }
       
       // update list with new suggestions
       plugin.$list.html(suggestions);
     };
     
     var list_item = function(tag, input_val) {
+      if (plugin.settings.anywhere) {
+        // return list el with highlighted matched input value in tag
+        return '<li>'+tag.splice(tag.indexOf(input_val), input_val.length, '<span>'+input_val+'</span>')+'</li>';
+      } else {
+        // return list el with highlighted matched input value in tag
+        return '<li>'+tag.splice(tag.indexOf(input_val), input_val.length, '<span>'+input_val+'</span>')+'</li>';
+      }
       
-      // return list el with highlighted matched input value in tag
-      return '<li>'+tag.splice(tag.indexOf(input_val), input_val.length, '<span>'+input_val+'</span>')+'</li>';
     };
     
     // Public
