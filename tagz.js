@@ -55,20 +55,27 @@
         switch(e.keyCode){
           case 8: // backspace
             plugin.reset_possible_suggestions(); // reset possible suggestions
+            update_possible_suggestions(val);
+            show_list(val);
+            break;
           case 37: // arrow left
-            // do something
+            console.log('left');
+            break;
           case 38: // arrow up
-            // do something
+            console.log('up');
+            break;
           case 39: // arrow right
-            // do something
+            console.log('right');
+            break;
           case 40: // arrow down
-            // do something
+            console.log('down');
+            break;
           default:
-            // do something
+            update_possible_suggestions(val);
+            show_list(val);
+            break;
         }
-         
-        update_possible_suggestions(val);
-        show_list(val);
+        
       });
       
     };
