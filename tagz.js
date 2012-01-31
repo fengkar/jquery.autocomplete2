@@ -12,9 +12,8 @@
       tags: null  // Content that will be loaded into modal
     };
     
-    var plugin = this,  // Use the plugin var to access the modalw object everywhere
-        $doc = $(doc),  // Keep document in a var
-        $win = $(win);  // Keep window in a var
+    // Use the plugin var to access the modalw object everywhere
+    var plugin = this;
     
     // Object to hold the merged default and user-provided options
     plugin.settings = {};
@@ -30,9 +29,11 @@
       // by making it a public property
       plugin.$el = $el;
       
-      
       // default possible suggestions to all tags
       plugin.possible_suggestions = plugin.settings.tags;
+      
+      // default list pos to 0
+      plugin.list_pos = 0;
       
       // setup event listners
       event_listners();
@@ -62,13 +63,17 @@
             console.log('left');
             break;
           case 38: // arrow up
-            console.log('up');
+            // increment list pos
+            plugin.list_pos++;
+            move_in_list();
             break;
           case 39: // arrow right
             console.log('right');
             break;
           case 40: // arrow down
-            console.log('down');
+            // decrement list pos
+            plugin.list_pos--;
+            move_in_list();
             break;
           default:
             update_possible_suggestions(val);
@@ -147,7 +152,10 @@
         // return list el with highlighted matched input value in tag
         return '<li><span>'+input_val+'</span>'+tag.substr(input_val.length)+'</li>';
       
-      
+    };
+    
+    var move_in_list = function() {
+      console.log(plugin.list_pos);
     };
     
     // Public
