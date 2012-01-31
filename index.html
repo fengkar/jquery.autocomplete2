@@ -3,7 +3,8 @@
   <meta charset="utf-8" />
   <title>Tagz</title>
   <style>
-    span { color: red; }
+    .tagz-wrapper ul { font-weight: bold; }
+    .tagz-wrapper ul span { font-weight: normal; }
   </style>
 </head>
 <body>
@@ -15,6 +16,7 @@
 
 <script>
   var tags = ["agile","ajax","apache","api","apml","applescript","architecture","auth","autocomplete","beautify","bug","bugs","c","canvas","cheatsheet","closure","cocoa","code","codedump","comet","compiler","compression","compressor","computer","crossdomain","csrf","css3","d","dashcode","debug","debugger","debugging","development","dom","ext","firebug","firefox","flash","flex","framework","functions","greasemonkey","hack","hacks","howto","html","html5","ie","iframe","iframes","innerhtml","input","java","javascript","jquery","js","js2","keycodes","keypress","lamp","language","languages","leak","leaks","livesearch","memory","memoryleak","minify","moo","mootools","namespace","nu","oauth","obfuscate","obfuscator","objective-c","onload","oop","opml","optimisation","optimised","optimization","pack","packer","performance","perl","php","plugin","plugins","programming","prototype","prototyping","rail","rails","regexp","replacehtml","reserved","rest","ruby","scripting","scroll","scrolling","sdk","snippet"];
+  
   var tagz = new $.tagz($('#example1'), {tags:tags});
 </script>
 
