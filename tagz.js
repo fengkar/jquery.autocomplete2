@@ -52,11 +52,21 @@
         // input value
         var val = $(this).val();
         
-        // if backspace was hit
-        if (e.keyCode == 8)
-          // reset possible suggestions
-          plugin.reset_possible_suggestions();
-          
+        switch(e.keyCode){
+          case 8: // backspace
+            plugin.reset_possible_suggestions(); // reset possible suggestions
+          case 37: // arrow left
+            // do something
+          case 38: // arrow up
+            // do something
+          case 39: // arrow right
+            // do something
+          case 40: // arrow down
+            // do something
+          default:
+            // do something
+        }
+         
         update_possible_suggestions(val);
         show_list(val);
       });
