@@ -123,13 +123,13 @@
     };
     
     var list_item = function(tag, input_val) {
-      if (plugin.settings.anywhere) {
+      if (plugin.settings.anywhere)
         // return list el with highlighted matched input value in tag
         return '<li>'+tag.splice(tag.indexOf(input_val), input_val.length, '<span>'+input_val+'</span>')+'</li>';
-      } else {
+      else
         // return list el with highlighted matched input value in tag
-        return '<li>'+tag.splice(tag.indexOf(input_val), input_val.length, '<span>'+input_val+'</span>')+'</li>';
-      }
+        return '<li><span>'+input_val+'</span>'+tag.substr(input_val.length)+'</li>';
+      
       
     };
     
