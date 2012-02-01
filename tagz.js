@@ -32,8 +32,8 @@
       // default possible suggestions to all tags
       plugin.possible_suggestions = plugin.settings.tags;
       
-      // default list pos to 0
-      plugin.list_pos = 0;
+      // default list pos to -1 (nothing selected)
+      plugin.list_pos = -1;
       
       // setup event listners
       event_listners();
@@ -64,16 +64,34 @@
             break;
           case 38: // arrow up
             // increment list pos
-            plugin.list_pos++;
-            move_in_list();
+            plugin.list_pos--;
+            if (plugin.list_pos >= 0) {
+              move_in_list();
+            } else {
+              // if we are hitting -2
+              if (plugin.list_pos == -2) {
+                // set list pos to last item in list
+                plugin.list_pos = plugin.$list_items.length - 1;
+                
+                // move in list
+                move_in_list();
+              } else {
+                deselect_list();
+              }
+            }
             break;
           case 39: // arrow right
             console.log('right');
             break;
           case 40: // arrow down
             // decrement list pos
-            plugin.list_pos--;
-            move_in_list();
+            plugin.list_pos++;
+            if (plugin.list_pos <= plugin.$list_items.length) {
+              move_in_list();
+            } else {
+              plugin.list_pos = 0;
+              move_in_list();
+            }
             break;
           default:
             update_possible_suggestions(val);
@@ -142,6 +160,10 @@
       
       // update list with new suggestions
       plugin.$list.html(suggestions);
+      
+      // hold list elements
+      plugin.$list_items = plugin.$list.find('li');
+      
     };
     
     var list_item = function(tag, input_val) {
@@ -155,7 +177,26 @@
     };
     
     var move_in_list = function() {
-      console.log(plugin.list_pos);
+      
+      // hold active item
+      var $active_item = plugin.$list_items.eq(plugin.list_pos);
+      
+      // remove active on all list items
+      plugin.$list_items.removeClass('active');
+      
+      // set active on current list item
+      $active_item.addClass('active');
+      
+      // set suggestion with active items text
+      set_suggestion($active_item.text());
+    };
+    
+    var deselect_list = function() {
+      plugin.$list_items.removeClass('active');
+    };
+    
+    var set_suggestion = function(text) {
+      plugin.$el.val(text);
     };
     
     // Public
