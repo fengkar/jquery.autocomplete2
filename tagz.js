@@ -32,8 +32,8 @@
       // default possible suggestions to all tags
       plugin.possible_suggestions = plugin.settings.tags;
       
-      // default list pos to -1 (nothing selected)
-      plugin.list_pos = -1;
+      // reset list pos
+      reset_list_pos();
       
       // setup event listners
       event_listners();
@@ -59,6 +59,9 @@
             update_possible_suggestions(val);
             show_list(val);
             break;
+          case 13: // enter
+            add_tag();
+            break;
           case 37: // arrow left
             console.log('left');
             break;
@@ -71,7 +74,7 @@
               // if we are hitting -2
               if (plugin.list_pos == -2) {
                 // set list pos to last item in list
-                plugin.list_pos = plugin.$list_items.length - 1;
+                plugin.list_pos = plugin.$suggestion_list_items.length - 1;
                 
                 // move in list
                 move_in_list();
@@ -86,7 +89,7 @@
           case 40: // arrow down
             // decrement list pos
             plugin.list_pos++;
-            if (plugin.list_pos <= plugin.$list_items.length) {
+            if (plugin.list_pos <= plugin.$suggestion_list_items.length) {
               move_in_list();
             } else {
               plugin.list_pos = 0;
@@ -94,8 +97,13 @@
             }
             break;
           default:
-            update_possible_suggestions(val);
-            show_list(val);
+            // if there are possible suggestions
+            if (plugin.possible_suggestions.length) {
+              update_possible_suggestions(val);
+              show_list(val);
+            } else {
+              hide_suggestions();
+            }
             break;
         }
         
@@ -108,13 +116,14 @@
     var wrap_el = function() {
       
       // wrap el and create tag list el
-      plugin.$el.wrap('<div class="tagz-wrapper" />').after('<ul></ul>');
+      plugin.$el.wrap('<div class="tagz-wrapper" />').after('<ul class="suggestions"></ul><ul class="added"></ul>');
       
       // store list el
-      plugin.$list = plugin.$el.siblings('ul');
+      plugin.$suggestion_list = plugin.$el.siblings('.suggestions');
+      
+      plugin.$added_list = plugin.$el.siblings('.added');
       
     };
-    
     
     // Private
     // Loop possible suggestions and refine it
@@ -149,6 +158,8 @@
       
     };
     
+    // Private
+    // Show suggestion list
     var show_list = function(input_val) {
       // suggestions
       var suggestions = '';
@@ -159,13 +170,22 @@
       }
       
       // update list with new suggestions
-      plugin.$list.html(suggestions);
+      plugin.$suggestion_list.html(suggestions);
       
       // hold list elements
-      plugin.$list_items = plugin.$list.find('li');
+      plugin.$suggestion_list_items = plugin.$suggestion_list.find('li');
       
+      // display list
+      show_suggestions();
+      
+      // if there are no possible suggestions
+      if (plugin.possible_suggestions.length == 0) {
+        hide_suggestions();
+      }
     };
     
+    // Private
+    // A list item
     var list_item = function(tag, input_val) {
       if (plugin.settings.anywhere)
         // return list el with highlighted matched input value in tag
@@ -176,13 +196,15 @@
       
     };
     
+    // Private
+    // Move up and down in list
     var move_in_list = function() {
       
       // hold active item
-      var $active_item = plugin.$list_items.eq(plugin.list_pos);
+      var $active_item = plugin.$suggestion_list_items.eq(plugin.list_pos);
       
       // remove active on all list items
-      plugin.$list_items.removeClass('active');
+      plugin.$suggestion_list_items.removeClass('active');
       
       // set active on current list item
       $active_item.addClass('active');
@@ -191,12 +213,55 @@
       set_suggestion($active_item.text());
     };
     
+    // Private
+    // Deselect all list items
     var deselect_list = function() {
-      plugin.$list_items.removeClass('active');
+      plugin.$suggestion_list_items.removeClass('active');
     };
     
+    // Private
+    // Set suggestion in input
     var set_suggestion = function(text) {
       plugin.$el.val(text);
+    };
+    
+    // Private
+    // Add tag to tag list
+    var add_tag = function() {
+      // add tag
+      plugin.$added_list.append('<li>'+plugin.$el.val()+'</li>');
+      
+      // clear list
+      plugin.$el.val('');
+      
+      // reset
+      plugin.reset_possible_suggestions();
+      
+      // hide suggestions
+      hide_suggestions();
+      
+      // focus on input
+      plugin.$el.focus();
+    };
+    
+    // Private
+    // Hide suggestion list
+    var show_suggestions = function() {
+      plugin.$suggestion_list.show();
+    };
+    
+    // Private
+    // Hide suggestion list
+    var hide_suggestions = function() {
+      plugin.$suggestion_list.hide();
+    };
+    
+    
+    // Private
+    // Reset list position
+    var reset_list_pos = function() {
+      // default list pos to -1 (nothing selected)
+      plugin.list_pos = -1;
     };
     
     // Public
@@ -205,6 +270,12 @@
       
       // reset possible suggestions to all tags
       plugin.possible_suggestions = plugin.settings.tags;
+      
+      // deselect
+      deselect_list();
+      
+      // reset list pos
+      reset_list_pos();
     };
     
     // Call the "constructor"
