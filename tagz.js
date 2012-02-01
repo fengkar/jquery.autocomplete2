@@ -58,6 +58,12 @@
             plugin.reset_possible_suggestions(); // reset possible suggestions
             update_possible_suggestions(val);
             show_list(val);
+            
+            // if we are back at zero
+            if (val.length == 0) {
+              hide_suggestions();
+              clear_helper();
+            }
             break;
           case 13: // enter
             add_tag();
@@ -116,12 +122,16 @@
     var wrap_el = function() {
       
       // wrap el and create tag list el
-      plugin.$el.wrap('<div class="tagz-wrapper" />').after('<ul class="suggestions"></ul><ul class="added"></ul>');
+      plugin.$el.wrap('<div class="tagz-wrapper" />').after('<ul class="suggestions"></ul><ul class="added"></ul>').before('<div class="helper" />');
       
       // store list el
       plugin.$suggestion_list = plugin.$el.siblings('.suggestions');
       
+      // store added list el
       plugin.$added_list = plugin.$el.siblings('.added');
+      
+      // store helper
+      plugin.$helper = plugin.$el.siblings('.helper');
       
     };
     
@@ -142,14 +152,14 @@
         if (plugin.settings.anywhere) {
           // check if its a possible suggestions
           if (plugin.possible_suggestions[i].toLowerCase().indexOf(string) >= 0)
-            // push string
-            new_possible_suggestions.push(plugin.possible_suggestions[i]);
+            // unshift string
+            new_possible_suggestions.unshift(plugin.possible_suggestions[i]);
         } else {
           
           // check if its a possible suggestions
           if (plugin.possible_suggestions[i].toLowerCase().substr(0, strlen) == string)
-            // push string
-            new_possible_suggestions.push(plugin.possible_suggestions[i]);
+            // unshift string
+            new_possible_suggestions.unshift(plugin.possible_suggestions[i]);
         }
       }
       
@@ -162,25 +172,36 @@
     // Show suggestion list
     var show_list = function(input_val) {
       // suggestions
-      var suggestions = '';
+      var suggestions = [];
       
       // loop possible suggestions
       for (var i = plugin.possible_suggestions.length - 1; i >= 0; i--) {
-        suggestions += list_item(plugin.possible_suggestions[i], input_val);
+        
+        // add list item to beginning of suggestions
+        suggestions.unshift(list_item(plugin.possible_suggestions[i], input_val));
       }
       
-      // update list with new suggestions
-      plugin.$suggestion_list.html(suggestions);
+      // update list with new suggestions and remove commas
+      plugin.$suggestion_list.html(suggestions.toString().replace(/,/g,''));
       
       // hold list elements
       plugin.$suggestion_list_items = plugin.$suggestion_list.find('li');
       
-      // display list
-      show_suggestions();
-      
-      // if there are no possible suggestions
-      if (plugin.possible_suggestions.length == 0) {
+      // if there suggestions
+      if (plugin.possible_suggestions.length) {
+        
+        // display list
+        show_suggestions();
+        
+        // populate helper with first suggestion
+        populate_helper(plugin.possible_suggestions[0]);
+      } else {
+        
+        // hide suggestions
         hide_suggestions();
+        
+        // clear helper
+        clear_helper();
       }
     };
     
@@ -199,6 +220,9 @@
     // Private
     // Move up and down in list
     var move_in_list = function() {
+      
+      // clear helper
+      clear_helper();
       
       // hold active item
       var $active_item = plugin.$suggestion_list_items.eq(plugin.list_pos);
@@ -240,6 +264,9 @@
       // hide suggestions
       hide_suggestions();
       
+      // clear helper
+      clear_helper();
+      
       // focus on input
       plugin.$el.focus();
     };
@@ -262,6 +289,18 @@
     var reset_list_pos = function() {
       // default list pos to -1 (nothing selected)
       plugin.list_pos = -1;
+    };
+    
+    // Private
+    // Populate helper with helper text
+    var populate_helper = function(text) {
+      plugin.$helper.html(text);
+    };
+    
+    // Private
+    // Clear helper
+    var clear_helper = function() {
+      plugin.$helper.html('');
     };
     
     // Public
