@@ -72,6 +72,9 @@
           case 13: // enter
             add_tag();
             break;
+          case 27: // escape
+            console.log('escape');
+            break;
           case 37: // arrow left
             console.log('left');
             break;
@@ -121,6 +124,8 @@
             break;
         }
         
+      }).keypress(function(e) {
+        e.preventDefault();
       });
       
     };
