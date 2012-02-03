@@ -9,7 +9,7 @@
     // Default settings
     var defaults = {
       anywhere: false, // search anywhere in tag
-      tags: null,  // Content that will be loaded into modal
+      tags: null,  // tags that will ge searched for
       on_add_tag: function() {} // Tag added callback
     };
     
