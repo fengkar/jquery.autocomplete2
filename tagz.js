@@ -10,6 +10,7 @@
     var defaults = {
       anywhere: false, // search anywhere in tag
       tags: null,  // tags that will ge searched for
+      max_suggestions: 4, // max suggestions
       on_add_tag: function() {} // Tag added callback
     };
     
@@ -124,8 +125,6 @@
             break;
         }
         
-      }).keypress(function(e) {
-        e.preventDefault();
       });
       
     };
@@ -160,22 +159,26 @@
       // string length
       strlen = string.length,
       // lowercase string
-      string = string.toLowerCase();
-        
+      string = string.toLowerCase(),
+      // suggestion_count index
+      suggestion_count = 0;
+      
       // loop possible suggestions
       for (var i = plugin.possible_suggestions.length - 1; i >= 0; i--) {
         
         if (plugin.settings.anywhere) {
           // check if its a possible suggestions
-          if (plugin.possible_suggestions[i].toLowerCase().indexOf(string) >= 0)
+          if (plugin.possible_suggestions[i].toLowerCase().indexOf(string) >= 0) {
             // unshift string
             new_possible_suggestions.unshift(plugin.possible_suggestions[i]);
+          }
         } else {
           
           // check if its a possible suggestions
-          if (plugin.possible_suggestions[i].toLowerCase().substr(0, strlen) == string)
+          if (plugin.possible_suggestions[i].toLowerCase().substr(0, strlen) == string) {
             // unshift string
             new_possible_suggestions.unshift(plugin.possible_suggestions[i]);
+          }
         }
       }
       
@@ -196,6 +199,9 @@
         // add list item to beginning of suggestions
         suggestions.unshift(list_item(plugin.possible_suggestions[i], input_val));
       }
+      
+      // remove items we dont need
+      suggestions.splice(plugin.settings.max_suggestions, suggestions.length-plugin.settings.max_suggestions);
       
       // update list with new suggestions and remove commas
       plugin.$suggestion_list.html(suggestions.toString().replace(/,/g,''));
