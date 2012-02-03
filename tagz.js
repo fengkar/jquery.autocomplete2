@@ -30,6 +30,9 @@
       // by making it a public property
       plugin.$el = $el;
       
+      // has suggestions defaults to false
+      plugin.has_suggestions = false;
+      
       // default possible suggestions to all tags
       plugin.possible_suggestions = plugin.settings.tags;
       
@@ -79,14 +82,16 @@
               move_in_list();
             } else {
               // if we are hitting -2
-              if (plugin.list_pos == -2) {
-                // set list pos to last item in list
-                plugin.list_pos = plugin.$suggestion_list_items.length - 1;
-                
-                // move in list
-                move_in_list();
-              } else {
-                deselect_list();
+              if (plugin.has_suggestions) {
+                if (plugin.list_pos == -2) {
+                  // set list pos to last item in list
+                  plugin.list_pos = plugin.$suggestion_list_items.length - 1;
+                  
+                  // move in list
+                  move_in_list();
+                } else {
+                  deselect_list();
+                }
               }
             }
             break;
@@ -94,13 +99,15 @@
             console.log('right');
             break;
           case 40: // arrow down
-            // decrement list pos
-            plugin.list_pos++;
-            if (plugin.list_pos <= plugin.$suggestion_list_items.length) {
-              move_in_list();
-            } else {
-              plugin.list_pos = 0;
-              move_in_list();
+            if (plugin.has_suggestions) {
+              // decrement list pos
+              plugin.list_pos++;
+              if (plugin.list_pos <= plugin.$suggestion_list_items.length) {
+                move_in_list();
+              } else {
+                plugin.list_pos = 0;
+                move_in_list();
+              }
             }
             break;
           default:
@@ -139,6 +146,9 @@
     // Private
     // Loop possible suggestions and refine it
     var update_possible_suggestions = function(string) {
+      
+      // has suggestions
+      plugin.has_suggestions = true;
       
       // array to hold new possible suggestions
       var new_possible_suggestions = [],
@@ -316,6 +326,9 @@
       
       // reset possible suggestions to all tags
       plugin.possible_suggestions = plugin.settings.tags;
+      
+      // reset has_suggestions
+      plugin.has_suggestions = false;
       
       // deselect
       deselect_list();
