@@ -9,7 +9,8 @@
     // Default settings
     var defaults = {
       anywhere: false, // search anywhere in tag
-      tags: null  // Content that will be loaded into modal
+      tags: null,  // Content that will be loaded into modal
+      on_add_tag: function() {} // Tag added callback
     };
     
     // Use the plugin var to access the modalw object everywhere
@@ -252,8 +253,9 @@
     // Private
     // Add tag to tag list
     var add_tag = function() {
+      var tag = plugin.$el.val();
       // add tag
-      plugin.$added_list.append('<li>'+plugin.$el.val()+'</li>');
+      plugin.$added_list.append('<li>'+tag+'</li>');
       
       // clear list
       plugin.$el.val('');
@@ -269,6 +271,11 @@
       
       // focus on input
       plugin.$el.focus();
+      
+      // callback
+      if (plugin.settings.on_add_tag && typeof plugin.settings.on_add_tag == 'function')
+          // execute the callback function
+          plugin.settings.on_add_tag(tag);
     };
     
     // Private
