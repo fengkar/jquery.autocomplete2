@@ -100,7 +100,8 @@
             }
             break;
           case 39: // arrow right
-            console.log('right');
+            if (val.length)
+              complete_helper();
             break;
           case 40: // arrow down
             if (plugin.has_suggestions) {
@@ -311,7 +312,6 @@
       plugin.$suggestion_list.hide();
     };
     
-    
     // Private
     // Reset list position
     var reset_list_pos = function() {
@@ -329,6 +329,22 @@
     // Clear helper
     var clear_helper = function() {
       plugin.$helper.html('');
+    };
+    
+    // Private
+    // Complete helper
+    var complete_helper = function() {
+      // set value
+      plugin.$el.val(plugin.possible_suggestions[0]);
+      
+      // deselect
+      deselect_list();
+      
+      // reset list pos
+      reset_list_pos();
+      
+      // hide suggestions
+      hide_suggestions();
     };
     
     // Public
