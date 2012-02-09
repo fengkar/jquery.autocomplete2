@@ -43,11 +43,11 @@
       // reset list pos
       reset_list_pos();
       
-      // setup event listners
-      event_listners();
-      
       // create modal window
       wrap_el();
+      
+      // setup event listners
+      event_listners();
       
     };
     
@@ -147,6 +147,14 @@
             break;
         }
         
+      });
+      
+      plugin.$suggestion_list.on('click', 'li', function(e) {
+        plugin.$el.val($(this).text());
+        add_tag();
+      }).on('hover', 'li', function() {
+        plugin.list_pos = $(this).index();
+        $(this).addClass('active').siblings().removeClass('active');
       });
       
     };
