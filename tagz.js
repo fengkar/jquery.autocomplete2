@@ -149,7 +149,7 @@
             
             break;
           case 39: // arrow right
-            if (val.length)
+            if (val.length && plugin.$suggestion_list.find('.active').length == 0)
               complete_helper();
             break;
           case 40: // arrow down
