@@ -368,14 +368,16 @@
       // set value
       plugin.$el.val(plugin.possible_suggestions[0]);
       
+      
       // deselect
       deselect_list();
       
       // reset list pos
       reset_list_pos();
       
-      // hide suggestions
-      hide_suggestions();
+      // update last value
+      plugin.typed_val = plugin.$el.val();
+      
     };
     
     // Private
