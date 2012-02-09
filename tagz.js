@@ -71,7 +71,8 @@
             }
             break;
           case 13: // enter
-            add_tag();
+            if (val.length)
+              add_tag();
             break;
           case 27: // escape
             console.log('escape');
