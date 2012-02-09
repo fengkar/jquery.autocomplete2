@@ -60,7 +60,7 @@
         
         // input value
         var val = $(this).val();
-        console.log(e.keyCode);
+        
         switch(e.keyCode){
           case 8: // backspace
             plugin.reset_possible_suggestions(); // reset possible suggestions
@@ -156,13 +156,10 @@
     var wrap_el = function() {
       
       // wrap el and create tag list el
-      plugin.$el.wrap('<div class="tagz-wrapper" />').after('<ul class="suggestions"></ul><ul class="added"></ul>').before('<div class="helper" />');
+      plugin.$el.wrap('<div class="tagz-wrapper" />').after('<ul class="suggestions"></ul>').before('<div class="helper" />');
       
       // store list el
       plugin.$suggestion_list = plugin.$el.siblings('.suggestions');
-      
-      // store added list el
-      plugin.$added_list = plugin.$el.siblings('.added');
       
       // store helper
       plugin.$helper = plugin.$el.siblings('.helper');
@@ -304,8 +301,6 @@
     // Add tag to tag list
     var add_tag = function() {
       var tag = plugin.$el.val();
-      // add tag
-      plugin.$added_list.append('<li>'+tag+'</li>');
       
       // clear list
       plugin.$el.val('');
