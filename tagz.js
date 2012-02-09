@@ -233,7 +233,7 @@
         show_suggestions();
         
         // populate helper with first suggestion
-        populate_helper(plugin.possible_suggestions[0]);
+        populate_helper(input_val, plugin.possible_suggestions[0]);
       } else {
         
         // hide suggestions
@@ -344,8 +344,8 @@
     
     // Private
     // Populate helper with helper text
-    var populate_helper = function(text) {
-      plugin.$helper.html(text);
+    var populate_helper = function(input_val, text) {
+      plugin.$helper.html('<span>'+input_val+'</span>'+text.substr(input_val.length));
     };
     
     // Private
