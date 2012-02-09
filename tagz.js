@@ -60,7 +60,7 @@
         
         // input value
         var val = $(this).val();
-        
+        console.log(e.keyCode);
         switch(e.keyCode){
           case 8: // backspace
             plugin.reset_possible_suggestions(); // reset possible suggestions
@@ -88,7 +88,7 @@
             clear_helper();
             break;
           case 37: // arrow left
-            console.log('left');
+            // console.log('left');
             break;
           case 38: // arrow up
             // increment list pos
@@ -132,12 +132,17 @@
             // update typed val
             plugin.typed_val = val;
             
-            // if there are possible suggestions
-            if (plugin.possible_suggestions.length) {
-              update_possible_suggestions(val);
-              show_list(val);
-            } else {
-              hide_suggestions();
+            // if we have something
+            if (val.length) {
+            
+              // if there are possible suggestions
+              if (plugin.possible_suggestions.length) {
+                update_possible_suggestions(val);
+                show_list(val);
+              } else {
+                hide_suggestions();
+              }
+              
             }
             break;
         }
