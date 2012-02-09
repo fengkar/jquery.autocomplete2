@@ -60,7 +60,7 @@
           switch(e.keyCode) {
             case 38: // arrow up
               e.preventDefault();
-              // increment list pos
+              // decrement list pos
               plugin.list_pos--;
               if (plugin.list_pos >= 0) {
                 move_in_list();
@@ -76,6 +76,7 @@
                   } else {
                     set_typed_val();
                     deselect_list();
+                    populate_helper(plugin.$el.val(), plugin.$suggestion_list_items.eq(0).text());
                   }
                 }
               }
@@ -83,7 +84,7 @@
             case 40: // arrow down
               e.preventDefault();
               if (plugin.has_suggestions) {
-                // decrement list pos
+                // increment list pos
                 plugin.list_pos++;
                 if (plugin.list_pos <= plugin.$suggestion_list_items.length) {
                   move_in_list();
@@ -133,17 +134,14 @@
             clear_helper();
             break;
           case 37: // arrow left
-            // console.log('left');
             break;
           case 38: // arrow up
-            
             break;
           case 39: // arrow right
             if (val.length && plugin.$suggestion_list.find('.active').length == 0)
               complete_helper();
             break;
           case 40: // arrow down
-            
             break;
           default:
             
@@ -307,6 +305,7 @@
       } else {
         // set input to last typed value
         set_typed_val();
+        populate_helper(plugin.$el.val(), plugin.$suggestion_list_items.eq(0).text());
       }
       
     };
