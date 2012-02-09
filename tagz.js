@@ -55,13 +55,68 @@
     // Setup event listners
     var event_listners = function() {
       
+       plugin.$el.keydown(function(e) {
+          //e.preventDefault();
+          //console.log('preventDefault');
+
+          switch(e.keyCode) {
+            case 38: // arrow up
+              e.preventDefault();
+              // increment list pos
+              plugin.list_pos--;
+              if (plugin.list_pos >= 0) {
+                move_in_list();
+              } else {
+                // if we are hitting -2
+                if (plugin.has_suggestions) {
+                  if (plugin.list_pos == -2) {
+                    // set list pos to last item in list
+                    plugin.list_pos = plugin.$suggestion_list_items.length - 1;
+
+                    // move in list
+                    move_in_list();
+                  } else {
+                    set_typed_val();
+                    deselect_list();
+                  }
+                }
+              }
+              break;
+            case 40: // arrow down
+              e.preventDefault();
+              if (plugin.has_suggestions) {
+                // decrement list pos
+                plugin.list_pos++;
+                if (plugin.list_pos <= plugin.$suggestion_list_items.length) {
+                  move_in_list();
+                } else {
+                  plugin.list_pos = 0;
+                  move_in_list();
+                }
+              }
+              break;
+
+            default:
+              break;
+          }
+
+        });
+      
+      //plugin.$el.keyup(function() {
+      //  console.log('keyup: '+$(this).val());
+      //});
+      //
+      //plugin.$el.keypress(function() {
+      //  console.log('keypress: '+$(this).val());
+      //});
+      
       // Listen on keyup
       plugin.$el.keyup(function(e) {
         
         // input value
         var val = $(this).val();
         
-        switch(e.keyCode){
+        switch(e.keyCode) {
           case 8: // backspace
             plugin.reset_possible_suggestions(); // reset possible suggestions
             update_possible_suggestions(val);
@@ -91,41 +146,14 @@
             // console.log('left');
             break;
           case 38: // arrow up
-            // increment list pos
-            plugin.list_pos--;
-            if (plugin.list_pos >= 0) {
-              move_in_list();
-            } else {
-              // if we are hitting -2
-              if (plugin.has_suggestions) {
-                if (plugin.list_pos == -2) {
-                  // set list pos to last item in list
-                  plugin.list_pos = plugin.$suggestion_list_items.length - 1;
-                  
-                  // move in list
-                  move_in_list();
-                } else {
-                  set_typed_val();
-                  deselect_list();
-                }
-              }
-            }
+            
             break;
           case 39: // arrow right
             if (val.length)
               complete_helper();
             break;
           case 40: // arrow down
-            if (plugin.has_suggestions) {
-              // decrement list pos
-              plugin.list_pos++;
-              if (plugin.list_pos <= plugin.$suggestion_list_items.length) {
-                move_in_list();
-              } else {
-                plugin.list_pos = 0;
-                move_in_list();
-              }
-            }
+            
             break;
           default:
             
@@ -367,7 +395,6 @@
     var complete_helper = function() {
       // set value
       plugin.$el.val(plugin.possible_suggestions[0]);
-      
       
       // deselect
       deselect_list();
