@@ -56,9 +56,7 @@
     var event_listners = function() {
       
        plugin.$el.keydown(function(e) {
-          //e.preventDefault();
-          //console.log('preventDefault');
-
+         
           switch(e.keyCode) {
             case 38: // arrow up
               e.preventDefault();
@@ -72,7 +70,7 @@
                   if (plugin.list_pos == -2) {
                     // set list pos to last item in list
                     plugin.list_pos = plugin.$suggestion_list_items.length - 1;
-
+                    
                     // move in list
                     move_in_list();
                   } else {
@@ -95,20 +93,12 @@
                 }
               }
               break;
-
+              
             default:
               break;
           }
-
+          
         });
-      
-      //plugin.$el.keyup(function() {
-      //  console.log('keyup: '+$(this).val());
-      //});
-      //
-      //plugin.$el.keypress(function() {
-      //  console.log('keypress: '+$(this).val());
-      //});
       
       // Listen on keyup
       plugin.$el.keyup(function(e) {
@@ -135,10 +125,10 @@
           case 27: // escape
             // reset
             plugin.reset_possible_suggestions();
-
+            
             // hide suggestions
             hide_suggestions();
-
+            
             // clear helper
             clear_helper();
             break;
