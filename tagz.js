@@ -324,7 +324,8 @@
     // Private
     // Deselect all list items
     var deselect_list = function() {
-      plugin.$suggestion_list_items.removeClass('active');
+      if (plugin.$suggestion_list_items)
+        plugin.$suggestion_list_items.removeClass('active');
     };
     
     // Private
