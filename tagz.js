@@ -37,6 +37,9 @@
       // default possible suggestions to all tags
       plugin.possible_suggestions = plugin.settings.tags;
       
+      // default typed
+      plugin.typed_val = plugin.$el.val();
+      
       // reset list pos
       reset_list_pos();
       
@@ -95,6 +98,7 @@
                   // move in list
                   move_in_list();
                 } else {
+                  set_typed_val();
                   deselect_list();
                 }
               }
@@ -117,6 +121,10 @@
             }
             break;
           default:
+            
+            // update typed val
+            plugin.typed_val = val;
+            
             // if there are possible suggestions
             if (plugin.possible_suggestions.length) {
               update_possible_suggestions(val);
@@ -254,11 +262,18 @@
       // remove active on all list items
       plugin.$suggestion_list_items.removeClass('active');
       
-      // set active on current list item
-      $active_item.addClass('active');
+      // if we have an item
+      if ($active_item.length) {
+        // set active on current list item
+        $active_item.addClass('active');
+
+        // set suggestion with active items text
+        set_suggestion($active_item.text());
+      } else {
+        // set input to last typed value
+        set_typed_val();
+      }
       
-      // set suggestion with active items text
-      set_suggestion($active_item.text());
     };
     
     // Private
@@ -346,6 +361,12 @@
       
       // hide suggestions
       hide_suggestions();
+    };
+    
+    // Private
+    // Set input to the last typed value
+    var set_typed_val = function() {
+      plugin.$el.val(plugin.typed_val);
     };
     
     // Public
