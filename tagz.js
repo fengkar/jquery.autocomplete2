@@ -78,7 +78,14 @@
               add_tag();
             break;
           case 27: // escape
-            console.log('escape');
+            // reset
+            plugin.reset_possible_suggestions();
+
+            // hide suggestions
+            hide_suggestions();
+
+            // clear helper
+            clear_helper();
             break;
           case 37: // arrow left
             console.log('left');
