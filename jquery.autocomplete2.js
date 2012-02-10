@@ -13,7 +13,7 @@
       max_suggestions: 4, // max suggestions
       on_focus: function() {},
       on_blur: function() {},
-      on_enter: function() {} // On enter callback
+      on_complete: function() {} // On complete callback
     };
     
     // Use the plugin var to access the modalw object everywhere
@@ -129,7 +129,7 @@
             break;
           case 13: // enter
             if (val.length)
-              add_tag();
+              complete();
             break;
           case 27: // escape
             // reset
@@ -187,7 +187,7 @@
       
       plugin.$suggestion_list.on('click', 'li', function(e) {
         plugin.$el.val($(this).text());
-        add_tag();
+        complete();
       }).on('hover', 'li', function() {
         plugin.list_pos = $(this).index();
         $(this).addClass('active').siblings().removeClass('active');
@@ -345,7 +345,7 @@
     
     // Private
     // Add tag to tag list
-    var add_tag = function() {
+    var complete = function() {
       var tag = plugin.$el.val();
       
       // clear list
@@ -364,9 +364,9 @@
       plugin.$el.focus();
       
       // callback
-      if (plugin.settings.on_enter && typeof plugin.settings.on_enter == 'function')
+      if (plugin.settings.on_complete && typeof plugin.settings.on_complete == 'function')
         // execute the callback function
-        plugin.settings.on_enter(tag);
+        plugin.settings.on_complete(tag);
     };
     
     // Private
