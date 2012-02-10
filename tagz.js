@@ -346,8 +346,8 @@
       
       // callback
       if (plugin.settings.on_add_tag && typeof plugin.settings.on_add_tag == 'function')
-          // execute the callback function
-          plugin.settings.on_add_tag(tag);
+        // execute the callback function
+        plugin.settings.on_add_tag(tag);
     };
     
     // Private
