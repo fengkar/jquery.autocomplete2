@@ -55,54 +55,51 @@
     // Setup event listners
     var event_listners = function() {
       
-       plugin.$el.keydown(function(e) {
-         
-          switch(e.keyCode) {
-            case 38: // arrow up
-              e.preventDefault();
-              // decrement list pos
-              plugin.list_pos--;
-              if (plugin.list_pos >= 0) {
-                move_in_list();
-              } else {
-                // if we are hitting -2
-                if (plugin.has_suggestions) {
-                  if (plugin.list_pos == -2) {
-                    // set list pos to last item in list
-                    plugin.list_pos = plugin.$suggestion_list_items.length - 1;
-                    
-                    // move in list
-                    move_in_list();
-                  } else {
-                    set_typed_val();
-                    deselect_list();
-                    populate_helper(plugin.$el.val(), plugin.$suggestion_list_items.eq(0).text());
-                  }
-                }
-              }
-              break;
-            case 40: // arrow down
-              e.preventDefault();
+      plugin.$el.keydown(function(e) { // Listen on keydown
+        
+        switch(e.keyCode) {
+          case 38: // arrow up
+            e.preventDefault();
+            // decrement list pos
+            plugin.list_pos--;
+            if (plugin.list_pos >= 0) {
+              move_in_list();
+            } else {
+              // if we are hitting -2
               if (plugin.has_suggestions) {
-                // increment list pos
-                plugin.list_pos++;
-                if (plugin.list_pos <= plugin.$suggestion_list_items.length) {
+                if (plugin.list_pos == -2) {
+                  // set list pos to last item in list
+                  plugin.list_pos = plugin.$suggestion_list_items.length - 1;
+                  
+                  // move in list
                   move_in_list();
                 } else {
-                  plugin.list_pos = 0;
-                  move_in_list();
+                  set_typed_val();
+                  deselect_list();
+                  populate_helper(plugin.$el.val(), plugin.$suggestion_list_items.eq(0).text());
                 }
               }
-              break;
-              
-            default:
-              break;
-          }
+            }
+            break;
+          case 40: // arrow down
+            e.preventDefault();
+            if (plugin.has_suggestions) {
+              // increment list pos
+              plugin.list_pos++;
+              if (plugin.list_pos <= plugin.$suggestion_list_items.length) {
+                move_in_list();
+              } else {
+                plugin.list_pos = 0;
+                move_in_list();
+              }
+            }
+            break;
+            
+          default:
+            break;
+        }
           
-        });
-      
-      // Listen on keyup
-      plugin.$el.keyup(function(e) {
+      }).keyup(function(e) { // Listen on keyup
         
         // input value
         var val = $(this).val();
