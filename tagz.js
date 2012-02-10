@@ -57,6 +57,8 @@
       
       plugin.$el.keydown(function(e) { // Listen on keydown
         
+        var val = $(this).val();
+        
         switch(e.keyCode) {
           case 38: // arrow up
             e.preventDefault();
@@ -80,6 +82,10 @@
                 }
               }
             }
+            break;
+          case 39:
+            if (val.length && plugin.$suggestion_list.find('.active').length == 0)
+              complete_helper();
             break;
           case 40: // arrow down
             e.preventDefault();
@@ -135,8 +141,6 @@
           case 38: // arrow up
             break;
           case 39: // arrow right
-            if (val.length && plugin.$suggestion_list.find('.active').length == 0)
-              complete_helper();
             break;
           case 40: // arrow down
             break;
