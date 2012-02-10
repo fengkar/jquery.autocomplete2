@@ -11,8 +11,8 @@
       anywhere: false, // search anywhere in tag
       tags: null,  // tags that will ge searched for
       max_suggestions: 4, // max suggestions
-      on_focus: function() {console.log('focus');},
-      on_blur: function() {console.log('blur');},
+      on_focus: function() {},
+      on_blur: function() {},
       on_enter: function() {} // On enter callback
     };
     
