@@ -83,7 +83,7 @@
               }
             }
             break;
-          case 39:
+          case 39: // arrow right
             if (val.length && plugin.$suggestion_list.find('.active').length == 0)
               complete_helper();
             break;
