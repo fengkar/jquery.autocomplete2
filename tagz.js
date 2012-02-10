@@ -11,6 +11,8 @@
       anywhere: false, // search anywhere in tag
       tags: null,  // tags that will ge searched for
       max_suggestions: 4, // max suggestions
+      on_focus: function() {console.log('focus');},
+      on_blur: function() {console.log('blur');},
       on_enter: function() {} // On enter callback
     };
     
@@ -54,6 +56,9 @@
     // Private
     // Setup event listners
     var event_listners = function() {
+      
+      // store focused state so that focus doenst get triggerd twice
+      var has_focused = false;
       
       plugin.$el.keydown(function(e) { // Listen on keydown
         
@@ -164,6 +169,20 @@
             break;
         }
         
+      }).focus(function() {
+        // callback
+        if (!has_focused) {
+          if (plugin.settings.on_focus && typeof plugin.settings.on_focus == 'function')
+            // execute the callback function
+            plugin.settings.on_focus();
+          has_focused = true;
+        }
+      }).blur(function() {
+        has_focused = false;
+        // callback
+        if (plugin.settings.on_blur && typeof plugin.settings.on_blur == 'function')
+          // execute the callback function
+          plugin.settings.on_blur();
       });
       
       plugin.$suggestion_list.on('click', 'li', function(e) {
