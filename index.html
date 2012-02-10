@@ -31,7 +31,7 @@
   var autocomplete = new $.autocomplete2($('#example1'), {
     suggestions: tags,
     on_complete: function(value) {
-      // do something on enter
+      // do something on complete
       $('body').append(value+' ');
     },
     on_focus: function() {

@@ -15,7 +15,7 @@ var towns = 'seoul', 'são paulo', 'bombay', 'jakarta', 'karachi', 'moskva', 'is
 var autocomplete = new $.autocomplete2($('#example1'), {
   suggestions: towns,
   on_complete: function(value) {
-    // do something on enter
+    // do something on on complete
     $('body').append(value+' ');
   },
   on_focus: function() {
