@@ -8,7 +8,7 @@
   $.tagz = function($el, options) {
     // Default settings
     var defaults = {
-      anywhere: false, // search anywhere in tag
+      anywhere: true, // search anywhere in tag
       tags: null,  // tags that will ge searched for
       max_suggestions: 4, // max suggestions
       on_add_tag: function() {} // Tag added callback
@@ -372,7 +372,9 @@
     // Private
     // Populate helper with helper text
     var populate_helper = function(input_val, text) {
-      plugin.$helper.html('<span>'+input_val+'</span>'+text.substr(input_val.length));
+      // only populate helper if we are searching from beginning
+      if (!plugin.settings.anywhere)
+        plugin.$helper.html('<span>'+input_val+'</span>'+text.substr(input_val.length));
     };
     
     // Private
