@@ -1,29 +1,29 @@
 ;(function($) {
   
-  // String splice from http://stackoverflow.com/questions/4313841/javascript-how-can-i-insert-a-string-at-a-specific-index#answer-4314050
+  // string splice from http://stackoverflow.com/questions/4313841/javascript-how-can-i-insert-a-string-at-a-specific-index#answer-4314050
   String.prototype.splice = function(idx, rem, s) {
     return (this.slice(0,idx)+s+this.slice(idx+Math.abs(rem)));
   };
   
   $.autocomplete2 = function($el, options) {
-    // Default settings
+    // default settings
     var defaults = {
-      anywhere: false, // search anywhere in tag
-      suggestions: null,  // tags that will ge searched for
+      anywhere: false, // search anywhere in a suggestion
+      suggestions: null,  // suggestions that will ge searched for
       max_suggestions: 4, // max suggestions
       on_focus: function() {},
       on_blur: function() {},
-      on_complete: function() {} // On complete callback
+      on_complete: function() {} // on complete callback
     };
     
-    // Use the plugin var to access the modalw object everywhere
+    // use the plugin var to access the modalw object everywhere
     var plugin = this;
     
-    // Object to hold the merged default and user-provided options
+    // object to hold the merged default and user-provided options
     plugin.settings = {};
     
     // Private
-    // The "constructor" that gets called when object is created
+    // the "constructor" that gets called when object is created
     var init = function() {
       
       // merge default and user-provided options
@@ -36,7 +36,7 @@
       // has suggestions defaults to false
       plugin.has_suggestions = false;
       
-      // default possible suggestions to all tags
+      // default possible suggestions to all suggestions
       plugin.possible_suggestions = plugin.settings.suggestions;
       
       // default typed
@@ -54,24 +54,27 @@
     };
     
     // Private
-    // Setup event listners
+    // setup event listners
     var event_listners = function() {
       
       // store focused state so that focus doenst get triggerd twice
       var has_focused = false;
       
-      plugin.$el.keydown(function(e) { // Listen on keydown
+      plugin.$el.keydown(function(e) { // listen on keydown
         
         var val = $(this).val();
         
         switch(e.keyCode) {
           case 38: // arrow up
             e.preventDefault();
+            
             // decrement list pos
             plugin.list_pos--;
+            
             if (plugin.list_pos >= 0) {
               move_in_list();
             } else {
+              
               // if we are hitting -2
               if (plugin.has_suggestions) {
                 if (plugin.list_pos == -2) {
@@ -86,7 +89,9 @@
                   populate_helper(plugin.$el.val(), plugin.$suggestion_list_items.eq(0).text());
                 }
               }
+              
             }
+            
             break;
           case 39: // arrow right
             if (val.length && plugin.$suggestion_list.find('.active').length == 0)
@@ -196,10 +201,10 @@
     };
     
     // Private
-    // Wrap input with elements
+    // wrap input with elements
     var wrap_el = function() {
       
-      // wrap el and create tag list el
+      // wrap el and create suggestions list el
       plugin.$el.wrap('<div class="autocomplete2-wrapper" />').after('<ul class="suggestions"></ul>').before('<div class="helper" />');
       
       // store list el
@@ -211,7 +216,7 @@
     };
     
     // Private
-    // Loop possible suggestions and refine it
+    // loop possible suggestions and refine it
     var update_possible_suggestions = function(string) {
       
       // has suggestions
@@ -251,7 +256,7 @@
     };
     
     // Private
-    // Show suggestion list
+    // show suggestion list
     var show_list = function(input_val) {
       // suggestions
       var suggestions = [];
@@ -291,19 +296,19 @@
     };
     
     // Private
-    // A list item
-    var list_item = function(tag, input_val) {
+    // a list item
+    var list_item = function(suggestion, input_val) {
       if (plugin.settings.anywhere)
-        // return list el with highlighted matched input value in tag
-        return '<li>'+tag.splice(tag.indexOf(input_val), input_val.length, '<span>'+input_val+'</span>')+'</li>';
+        // return list el with highlighted matched input value in suggestion
+        return '<li>'+suggestion.splice(suggestion.indexOf(input_val), input_val.length, '<span>'+input_val+'</span>')+'</li>';
       else
-        // return list el with highlighted matched input value in tag
-        return '<li><span>'+input_val+'</span>'+tag.substr(input_val.length)+'</li>';
+        // return list el with highlighted matched input value in suggestion
+        return '<li><span>'+input_val+'</span>'+suggestion.substr(input_val.length)+'</li>';
       
     };
     
     // Private
-    // Move up and down in list
+    // move up and down in list
     var move_in_list = function() {
       
       // clear helper
@@ -331,22 +336,22 @@
     };
     
     // Private
-    // Deselect all list items
+    // deselect all list items
     var deselect_list = function() {
       if (plugin.$suggestion_list_items)
         plugin.$suggestion_list_items.removeClass('active');
     };
     
     // Private
-    // Set suggestion in input
+    // set suggestion in input
     var set_suggestion = function(text) {
       plugin.$el.val(text);
     };
     
     // Private
-    // Add tag to tag list
+    // add suggestion to suggestion list
     var complete = function() {
-      var tag = plugin.$el.val();
+      var suggestion = plugin.$el.val();
       
       // clear list
       plugin.$el.val('');
@@ -366,30 +371,30 @@
       // callback
       if (plugin.settings.on_complete && typeof plugin.settings.on_complete == 'function')
         // execute the callback function
-        plugin.settings.on_complete(tag);
+        plugin.settings.on_complete(suggestion);
     };
     
     // Private
-    // Hide suggestion list
+    // hide suggestion list
     var show_suggestions = function() {
       plugin.$suggestion_list.show();
     };
     
     // Private
-    // Hide suggestion list
+    // hide suggestion list
     var hide_suggestions = function() {
       plugin.$suggestion_list.hide();
     };
     
     // Private
-    // Reset list position
+    // reset list position
     var reset_list_pos = function() {
       // default list pos to -1 (nothing selected)
       plugin.list_pos = -1;
     };
     
     // Private
-    // Populate helper with helper text
+    // populate helper with helper text
     var populate_helper = function(input_val, text) {
       // only populate helper if we are searching from beginning
       if (!plugin.settings.anywhere)
@@ -397,13 +402,13 @@
     };
     
     // Private
-    // Clear helper
+    // clear helper
     var clear_helper = function() {
       plugin.$helper.html('');
     };
     
     // Private
-    // Complete helper
+    // complete helper
     var complete_helper = function() {
       // set value
       plugin.$el.val(plugin.possible_suggestions[0]);
@@ -426,10 +431,10 @@
     };
     
     // Public
-    // Reset possible suggestions
+    // reset possible suggestions
     plugin.reset_possible_suggestions = function() {
       
-      // reset possible suggestions to all tags
+      // reset possible suggestions to all suggestions
       plugin.possible_suggestions = plugin.settings.suggestions;
       
       // reset has_suggestions
@@ -442,7 +447,7 @@
       reset_list_pos();
     };
     
-    // Call the "constructor"
+    // call the "constructor"
     init();
     
   };
