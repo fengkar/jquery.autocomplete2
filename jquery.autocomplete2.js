@@ -5,7 +5,7 @@
     return (this.slice(0,idx)+s+this.slice(idx+Math.abs(rem)));
   };
   
-  $.tagz = function($el, options) {
+  $.autocomplete2 = function($el, options) {
     // Default settings
     var defaults = {
       anywhere: false, // search anywhere in tag
@@ -200,7 +200,7 @@
     var wrap_el = function() {
       
       // wrap el and create tag list el
-      plugin.$el.wrap('<div class="tagz-wrapper" />').after('<ul class="suggestions"></ul>').before('<div class="helper" />');
+      plugin.$el.wrap('<div class="autocomplete2-wrapper" />').after('<ul class="suggestions"></ul>').before('<div class="helper" />');
       
       // store list el
       plugin.$suggestion_list = plugin.$el.siblings('.suggestions');
