@@ -1,17 +1,17 @@
 ;(function($) {
   
   // String splice from http://stackoverflow.com/questions/4313841/javascript-how-can-i-insert-a-string-at-a-specific-index#answer-4314050
-  String.prototype.splice = function( idx, rem, s ) {
-    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
+  String.prototype.splice = function(idx, rem, s) {
+    return (this.slice(0,idx)+s+this.slice(idx+Math.abs(rem)));
   };
   
   $.tagz = function($el, options) {
     // Default settings
     var defaults = {
-      anywhere: true, // search anywhere in tag
+      anywhere: false, // search anywhere in tag
       tags: null,  // tags that will ge searched for
       max_suggestions: 4, // max suggestions
-      on_add_tag: function() {} // Tag added callback
+      on_enter: function() {} // On enter callback
     };
     
     // Use the plugin var to access the modalw object everywhere
@@ -345,9 +345,9 @@
       plugin.$el.focus();
       
       // callback
-      if (plugin.settings.on_add_tag && typeof plugin.settings.on_add_tag == 'function')
+      if (plugin.settings.on_enter && typeof plugin.settings.on_enter == 'function')
         // execute the callback function
-        plugin.settings.on_add_tag(tag);
+        plugin.settings.on_enter(tag);
     };
     
     // Private

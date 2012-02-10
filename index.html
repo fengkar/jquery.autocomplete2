@@ -30,7 +30,7 @@
   
   var tagz = new $.tagz($('#example1'), {
     tags: tags,
-    on_add_tag: function(tag) {
+    on_enter: function(tag) {
       // do something on add tag
       $('body').append(tag+' ');
     }
