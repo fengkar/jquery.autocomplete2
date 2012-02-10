@@ -9,7 +9,7 @@
     // Default settings
     var defaults = {
       anywhere: false, // search anywhere in tag
-      tags: null,  // tags that will ge searched for
+      suggestions: null,  // tags that will ge searched for
       max_suggestions: 4, // max suggestions
       on_focus: function() {},
       on_blur: function() {},
@@ -37,7 +37,7 @@
       plugin.has_suggestions = false;
       
       // default possible suggestions to all tags
-      plugin.possible_suggestions = plugin.settings.tags;
+      plugin.possible_suggestions = plugin.settings.suggestions;
       
       // default typed
       plugin.typed_val = plugin.$el.val();
@@ -430,7 +430,7 @@
     plugin.reset_possible_suggestions = function() {
       
       // reset possible suggestions to all tags
-      plugin.possible_suggestions = plugin.settings.tags;
+      plugin.possible_suggestions = plugin.settings.suggestions;
       
       // reset has_suggestions
       plugin.has_suggestions = false;
