@@ -29,7 +29,7 @@ var autocomplete = new $.autocomplete2($('#example1'), {
 ```
 
 ## Size
-≈ 1.1kb minified
+≈ 3.8kb minified
 
 ## Depedencies
 jQuery (developed with v. 1.7.1)

@@ -1,4 +1,4 @@
-;(function($) {
+(function($) {
   
   // string splice from http://stackoverflow.com/questions/4313841/javascript-how-can-i-insert-a-string-at-a-specific-index#answer-4314050
   String.prototype.splice = function(idx, rem, s) {
