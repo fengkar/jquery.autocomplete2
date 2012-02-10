@@ -1,11 +1,6 @@
 # autocomplete2
 A autocomplete jQuery plugin, simmilar, but more lightweight than http://jqueryui.com/demos/autocomplete/.
 
-## HTML
-    <noscript data-small="images/kitten-1-small.jpg" data-large="images/kitten-1-large.jpg" data-alt="Kitten 1">
-        <img src="images/kitten-1-small.jpg" alt="Kitten 1" />
-    </noscript>
-
 ## Usage
 Include autocomplete2 like this
     
