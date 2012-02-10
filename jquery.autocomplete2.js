@@ -16,7 +16,7 @@
       on_complete: function() {} // on complete callback
     };
     
-    // use the plugin var to access the modalw object everywhere
+    // use the plugin var to access the object everywhere
     var plugin = this;
     
     // object to hold the merged default and user-provided options
@@ -45,7 +45,7 @@
       // reset list pos
       reset_list_pos();
       
-      // create modal window
+      // create wapper
       wrap_el();
       
       // setup event listners
