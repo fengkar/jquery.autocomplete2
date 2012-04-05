@@ -1,5 +1,5 @@
 # autocomplete2
-A autocomplete jQuery plugin, simmilar, but more lightweight than http://jqueryui.com/demos/autocomplete/.
+A autocomplete jQuery plugin, similar, but more lightweight than http://jqueryui.com/demos/autocomplete/.
 
 ## Usage
 Include autocomplete2 like this
